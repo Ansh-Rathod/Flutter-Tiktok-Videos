@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:stacked/stacked.dart';
 
 class FeedViewModel extends BaseViewModel {
-  VideoPlayerController? controller;
+  // VideoPlayerController? controller;
   List<Video> videos = [];
 
   int prevVideo = 0;
@@ -48,9 +48,7 @@ class FeedViewModel extends BaseViewModel {
     videos[index].controller!.play();
     prevVideo = index;
     notifyListeners();
-    if (index + 1 < videos.length) {
-      await videos[index + 1].loadController();
-    }
+
     print(index);
   }
 
@@ -58,7 +56,11 @@ class FeedViewModel extends BaseViewModel {
     if (videos.length > index) {
       await videos[index].loadController();
       videos[index].controller?.play();
+
       notifyListeners();
+      if (index + 1 < videos.length) {
+        await videos[index + 1].loadController();
+      }
     }
   }
 

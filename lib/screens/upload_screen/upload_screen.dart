@@ -66,7 +66,7 @@ class _UploadPageState extends State<UploadPage> {
     final dir = _appDocDir.path;
     final outPath = "$dir/$id.gif";
     await _flutterFFmpeg
-        .execute('-i ${widget.video} -vf fps=2,scale=450:-1 -t 3 $outPath')
+        .execute('-i ${widget.video} -vf fps=5,scale=450:-1 -t 3 $outPath')
         .then((returnCode) => print("Return code $returnCode"));
     return outPath;
   }

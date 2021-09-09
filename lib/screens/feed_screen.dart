@@ -38,22 +38,17 @@ class _FeedScreenState extends State<FeedScreen> {
     feedViewModel.loadVideo(0);
     feedViewModel.loadVideo(1);
     feedViewModel.setInitialised(true);
-    // feedViewModel.controller!.play();
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return feedViewModel.initialised
-        ? ViewModelBuilder<FeedViewModel>.reactive(
-            disposeViewModel: false,
-            fireOnModelReadyOnce: true,
-            initialiseSpecialViewModelsOnce: true,
-            builder: (context, model, child) => videoScreen(),
-            viewModelBuilder: () => feedViewModel,
-          )
-        : Container(child: Center(child: CircularProgressIndicator()));
+    return ViewModelBuilder<FeedViewModel>.reactive(
+      disposeViewModel: false,
+      builder: (context, model, child) => videoScreen(),
+      viewModelBuilder: () => feedViewModel,
+    );
   }
 
   Widget videoScreen() {
@@ -206,7 +201,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   void dispose() {
-    feedViewModel.controller?.dispose();
+    // feedViewModel.controller?.dispose();
     super.dispose();
   }
 }
@@ -269,7 +264,7 @@ class _AllVideoPageState extends State<AllVideoPage> {
                         )));
           },
           child: Container(
-            color: colors[Random().nextInt(colors.length - 1)],
+            color: Colors.grey.shade300,
             child: CachedNetworkImage(
                 imageUrl: feedViewModel.videos[i].gif, fit: BoxFit.cover),
           ),

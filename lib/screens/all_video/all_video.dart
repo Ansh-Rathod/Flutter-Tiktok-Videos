@@ -34,15 +34,13 @@ class _ViewVideoState extends State<ViewVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return feedViewModel.initialised
-        ? ViewModelBuilder<FeedViewModel>.reactive(
-            disposeViewModel: false,
-            fireOnModelReadyOnce: true,
-            initialiseSpecialViewModelsOnce: true,
-            builder: (context, model, child) => videoScreen(),
-            viewModelBuilder: () => feedViewModel,
-          )
-        : Container(child: Center(child: CircularProgressIndicator()));
+    return ViewModelBuilder<FeedViewModel>.reactive(
+      disposeViewModel: false,
+      fireOnModelReadyOnce: true,
+      initialiseSpecialViewModelsOnce: true,
+      builder: (context, model, child) => videoScreen(),
+      viewModelBuilder: () => feedViewModel,
+    );
   }
 
   Widget videoScreen() {
@@ -53,9 +51,7 @@ class _ViewVideoState extends State<ViewVideo> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: GetIt.instance<FeedViewModel>().actualScreen == 0
-            ? Colors.black
-            : Colors.white,
+        backgroundColor: Colors.black,
         body: feedVideos(),
       ),
     );
@@ -148,7 +144,7 @@ class _ViewVideoState extends State<ViewVideo> {
 
   @override
   void dispose() {
-    feedViewModel.controller?.dispose();
+    // feedViewModel.controller?.dispose();
     super.dispose();
   }
 }
