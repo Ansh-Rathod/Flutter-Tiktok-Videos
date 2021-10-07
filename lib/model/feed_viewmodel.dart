@@ -47,6 +47,9 @@ class FeedViewModel extends BaseViewModel {
     }
     videos[index].controller!.play();
     prevVideo = index;
+    if (prevVideo + 1 < videos.length) {
+      await videos[prevVideo + 1].loadController();
+    }
     notifyListeners();
 
     print(index);
@@ -58,9 +61,6 @@ class FeedViewModel extends BaseViewModel {
       videos[index].controller?.play();
 
       notifyListeners();
-      if (index + 1 < videos.length) {
-        await videos[index + 1].loadController();
-      }
     }
   }
 

@@ -7,9 +7,9 @@
 </h4>
 <hr>
 <p align="center">
-  <img alt="shields.io" src="https://img.shields.io/github/license/Ansh-Rathod/Flutter-Tiktok-Videos" />
-  <img alt="shields.io" src="https://img.shields.io/github/issues/Ansh-Rathod/Flutter-Tiktok-Videos" />
-  <img alt="shields.io" src="https://img.shields.io/github/stars/Ansh-Rathod/Flutter-Tiktok-Videos?style=social" />
+  <img src="https://img.shields.io/github/license/Ansh-Rathod/Flutter-Tiktok-Videos" />
+  <img src="https://img.shields.io/github/issues/Ansh-Rathod/Flutter-Tiktok-Videos" />
+  <img src="https://img.shields.io/github/stars/Ansh-Rathod/Flutter-Tiktok-Videos?style=social" />
 
 </p>
 <br/>
@@ -18,12 +18,12 @@
 </p>
 
 <p align="center">
-  <img alt="shields.io" src="screenshots\20210909_133005.gif" width="140"/>
-  <img alt="shields.io" src="screenshots/1.jpg" width="140"/>
-  <img alt="shields.io" src="screenshots/2.jpg" width="140"/>
-  <img alt="shields.io" src="screenshots/4.jpg" width="140"/>
-  <img alt="shields.io" src="screenshots/5.jpg" width="140"/>
-  <img alt="shields.io" src="screenshots/6.jpg" width="140"/>
+  <img src="screenshots\20210909_133005.gif" width="140"/>
+  <img src="screenshots/1.jpg" width="140"/>
+  <img src="screenshots/2.jpg" width="140"/>
+  <img src="screenshots/4.jpg" width="140"/>
+  <img src="screenshots/5.jpg" width="140"/>
+  <img src="screenshots/6.jpg" width="140"/>
 
 </p>
 
