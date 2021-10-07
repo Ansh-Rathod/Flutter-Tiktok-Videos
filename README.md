@@ -15,11 +15,11 @@
 </p>
 <br/>
 <p align="center">
-    <img src="screenshots\Thumbnail.jpg" alt="drawing" />
+    <img src="screenshots/Thumbnail.jpg" alt="drawing" />
 </p>
 
 <p align="center">
-  <img src="screenshots\20210909_133005.gif" width="140"/>
+  <img src="screenshots/20210909_133005.gif" width="140"/>
   <img src="screenshots/1.jpg" width="140"/>
   <img src="screenshots/2.jpg" width="140"/>
   <img src="screenshots/4.jpg" width="140"/>
@@ -80,4 +80,3 @@ flutter packages get
 ```
 flutter run
 ```
-
