@@ -4,11 +4,11 @@ import 'dart:math';
 
 import 'package:cached_video_player/cached_video_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -16,6 +16,7 @@ import 'package:uuid/uuid.dart';
 
 import 'package:cachedrun/screens/add_audio/add_audio.dart';
 import 'package:cachedrun/screens/add_audio/bloc/add_audio_bloc.dart';
+import 'package:video_player/video_player.dart';
 
 class UploadPage extends StatefulWidget {
   final String? video;
@@ -47,12 +48,10 @@ class _UploadPageState extends State<UploadPage> {
   Future<String> encodeVideo() async {
     var id = Uuid().v4();
 
-    final FlutterFFmpeg _flutterFFmpeg = FlutterFFmpeg();
     final Directory _appDocDir = await getApplicationDocumentsDirectory();
     final dir = _appDocDir.path;
     final outPath = "$dir/$id.mp4";
-    await _flutterFFmpeg
-        .execute(
+    await FFmpegKit.execute(
             "-i ${widget.video} -vf scale=480:-2,setsar=1:1 -c:v libx264 -c:a copy $outPath")
         .then((returnCode) => print("Return code $returnCode"));
     return outPath;
@@ -61,12 +60,11 @@ class _UploadPageState extends State<UploadPage> {
   Future<String> encodeGif() async {
     var id = Uuid().v4();
 
-    final FlutterFFmpeg _flutterFFmpeg = FlutterFFmpeg();
     final Directory _appDocDir = await getApplicationDocumentsDirectory();
     final dir = _appDocDir.path;
     final outPath = "$dir/$id.gif";
-    await _flutterFFmpeg
-        .execute('-i ${widget.video} -vf fps=5,scale=450:-1 -t 3 $outPath')
+    await FFmpegKit.execute(
+            '-i ${widget.video} -vf fps=5,scale=450:-1 -t 3 $outPath')
         .then((returnCode) => print("Return code $returnCode"));
     return outPath;
   }
@@ -107,7 +105,7 @@ class _UploadPageState extends State<UploadPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          FlatButton(
+          MaterialButton(
             textColor: Colors.white,
             onPressed: () async {
               showDialog(

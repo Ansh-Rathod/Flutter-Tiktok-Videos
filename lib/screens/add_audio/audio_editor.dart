@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:audio_session/audio_session.dart';
+import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -204,14 +204,13 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
               onPressed: () async {
                 if (!isCut) {
                   final path = await createFolderInAppDocDir('video');
-                  final FlutterFFmpeg _flutterFFmpeg = FlutterFFmpeg();
+
                   final Directory _appDocDir =
                       await getApplicationDocumentsDirectory();
                   final dir = Directory('${_appDocDir.path}/video');
                   final id = Uuid().v4();
                   final outPath = "${dir.path}/$id.mp4";
-                  await _flutterFFmpeg
-                      .execute(
+                  await FFmpegKit.execute(
                           "-i ${widget.vidpath} -i ${widget.file} -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest ${dir.path}/$id.mp4")
                       .then((return_code) => print("Return code $return_code"));
 
@@ -221,14 +220,12 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                       await AudioCutter.cutAudio(widget.file, start, end);
 
                   final path = await createFolderInAppDocDir('video');
-                  final FlutterFFmpeg _flutterFFmpeg = FlutterFFmpeg();
                   final Directory _appDocDir =
                       await getApplicationDocumentsDirectory();
                   final dir = Directory('${_appDocDir.path}/video');
                   final id = Uuid().v4();
                   final outPath = "${dir.path}/$id.mp4";
-                  await _flutterFFmpeg
-                      .execute(
+                  await FFmpegKit.execute(
                           "-i ${widget.vidpath} -i ${outputFilePath} -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest ${dir.path}/$id.mp4")
                       .then((return_code) => print("Return code $return_code"));
                   Navigator.pop(context, outPath);

@@ -34,7 +34,7 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -61,9 +61,9 @@ android {
    buildTypes {
        release {
            signingConfig signingConfigs.debug
-           minifyEnabled true
-           useProguard true
-           proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro' 
+        //    minifyEnabled true
+        //    useProguard true
+        //    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro' 
        }
    }
 }
@@ -73,7 +73,7 @@ flutter {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-auth'

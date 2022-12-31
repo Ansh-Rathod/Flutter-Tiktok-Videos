@@ -1,4 +1,5 @@
 import 'package:cached_video_player/cached_video_player.dart';
+import 'package:video_player/video_player.dart';
 
 class Video {
   String id;

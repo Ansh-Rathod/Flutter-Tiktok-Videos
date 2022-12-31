@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
@@ -26,14 +26,13 @@ class AudioCutter {
     final Directory _appDocDir = await getApplicationDocumentsDirectory();
 
     final id = Uuid().v4();
-    final FlutterFFmpeg _flutterFFmpeg = FlutterFFmpeg();
     final dir = Directory('${_appDocDir.path}/video');
 
     final outPath = "${dir.path}/$id.mp3";
     var cmd = "-i $path -ss $start -to $end -c copy ${dir.path}/$id.mp3";
-    int rc = await _flutterFFmpeg.execute(cmd);
+    var rc = await FFmpegKit.execute(cmd);
 
-    if (rc != 0) {
+    if (rc.getReturnCode() != 0) {
       throw ("[FFmpeg] process exited with rc $rc");
     }
 

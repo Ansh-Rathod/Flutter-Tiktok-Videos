@@ -21,26 +21,27 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  cached_network_image: ^3.1.0
-  cached_video_player: ^2.0.0-dev.1
-  cloud_firestore: ^2.5.1
-  cupertino_icons: ^1.0.2
-  file_picker: ^4.0.1
-  firebase_core: ^1.6.0
-  firebase_storage: ^10.0.3
   flutter:
     sdk: flutter
+  cached_network_image: ^3.1.0
+  cached_video_player: ^2.0.3
+  cloud_firestore: ^4.3.1
+  cupertino_icons: ^1.0.2
+  file_picker: ^5.2.4
+  firebase_core: ^2.4.1
+  firebase_storage: ^11.0.10
   flutter_bloc: any
   flutter_cache_manager: ^3.1.2
-  flutter_ffmpeg: ^0.4.2
+  ffmpeg_kit_flutter_min_gpl: 5.1.0-LTS
   get_it: ^7.2.0
   http: ^0.13.3
   image_picker: ^0.8.4
   just_audio: ^0.9.10
   path_provider: ^2.0.3
-  stacked: ^2.2.5
-  syncfusion_flutter_sliders: ^19.2.59
+  stacked: ^3.0.1
+  syncfusion_flutter_sliders: ^20.4.41
   uuid: ^3.0.4
+  video_player: ^2.4.10
 
 dev_dependencies:
   flutter_test:

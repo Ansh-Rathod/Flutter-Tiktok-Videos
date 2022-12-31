@@ -6,6 +6,7 @@ import 'package:cachedrun/screens/upload_screen/upload_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoPreview extends StatefulWidget {
   final String url;
@@ -49,7 +50,7 @@ class _VideoPreviewState extends State<VideoPreview> {
         brightness: Brightness.dark,
         elevation: 0.0,
         actions: [
-          FlatButton(
+          MaterialButton(
             onPressed: () async {
               if (controller.value.isPlaying) {
                 controller.pause();
@@ -124,8 +125,8 @@ class _VideoPreviewState extends State<VideoPreview> {
                       height: 70,
                       child: CircularProgressIndicator(
                         backgroundColor: Colors.grey,
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                            Colors.blueAccent),
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.blueAccent),
                       ),
                     ),
                   );

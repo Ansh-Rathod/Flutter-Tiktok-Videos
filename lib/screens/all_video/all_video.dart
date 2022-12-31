@@ -7,6 +7,7 @@ import 'package:cachedrun/widgets/description.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
+import 'package:video_player/video_player.dart';
 
 class ViewVideo extends StatefulWidget {
   final int index;

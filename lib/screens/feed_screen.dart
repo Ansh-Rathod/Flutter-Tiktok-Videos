@@ -17,6 +17,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
+import 'package:video_player/video_player.dart';
 
 import '../colors.dart';
 import '../model/video.dart';
