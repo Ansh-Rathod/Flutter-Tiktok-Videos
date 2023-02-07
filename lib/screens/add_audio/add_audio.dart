@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cachedrun/screens/upload_screen/upload_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -120,17 +118,16 @@ class AudioFiles extends StatelessWidget {
                                   backgroundColor: Colors.white,
                                   title: Center(
                                       child: Container(
-                                    width: 70,
-                                    height: 70,
+                                    width: 30,
+                                    height: 30,
                                     child: CircularProgressIndicator(
                                       backgroundColor: Colors.grey,
-                                      valueColor:
-                                          new AlwaysStoppedAnimation<Color>(
-                                              Colors.blueAccent),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.blueAccent),
                                     ),
                                   )),
                                   content: Text(
-                                    "Wait a Momment..",
+                                    "Importing track..",
                                     style: TextStyle(color: Colors.black),
                                     textAlign: TextAlign.center,
                                   ),

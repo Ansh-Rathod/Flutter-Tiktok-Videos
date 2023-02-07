@@ -1,9 +1,8 @@
-import 'package:cachedrun/screens/feed_screen.dart';
 import 'package:cachedrun/model/feed_viewmodel.dart';
+import 'package:cachedrun/screens/feed_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get_it/get_it.dart';
 
 Future<void> main() async {
@@ -28,6 +27,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      builder: (context, chil) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: DefaultTextStyle(
+            style: const TextStyle(
+              fontFamily: 'Roboto',
+            ),
+            child: chil!,
+          ),
+        );
+      },
       home: FeedScreen(),
     );
   }

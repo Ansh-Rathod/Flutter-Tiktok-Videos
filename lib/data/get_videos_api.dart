@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:http/http.dart' as http;
-import 'dart:math';
-import 'package:flutter/foundation.dart';
 
 class Api {
   Future<VideosList> getVideos() async {
@@ -12,7 +11,7 @@ class Api {
     int randomNumber = random.nextInt(50);
     final response = await http.get(
       Uri.parse(
-          'https://api.pexels.com/videos/popular?per_page=80&page=${randomNumber}&max_duration=20&orientation=portrait'),
+          'https://api.pexels.com/videos/popular?per_page=80&page=$randomNumber&max_duration=20&orientation=portrait'),
       headers: {
         HttpHeaders.authorizationHeader:
             "563492ad6f917000010000019051457aa9424d0db0e0b17147886a9e"
@@ -91,7 +90,8 @@ class Video {
       id: json['id'].toString(),
       duration: json['duration'],
       thumbnail: json['image'],
-      files: VideoFile.fromJson(json['video_files'][2]),
+      files: VideoFile.fromJson(
+          json['video_files'][json['video_files'].length - 1]),
     );
   }
 }
@@ -104,8 +104,6 @@ class VideoFile {
     required this.link,
   });
   factory VideoFile.fromJson(Map<String, dynamic> json) {
-    print(json['link']);
-    print(json['filetype']);
     return VideoFile(
       filetype: json['file_type'],
       link: json['link'],

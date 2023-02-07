@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_kit.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:io';
 
 class AudioCutter {
   static const MethodChannel _channel = const MethodChannel('audiocutter');
@@ -30,12 +29,19 @@ class AudioCutter {
 
     final outPath = "${dir.path}/$id.mp3";
     var cmd = "-i $path -ss $start -to $end -c copy ${dir.path}/$id.mp3";
-    var rc = await FFmpegKit.execute(cmd);
 
-    if (rc.getReturnCode() != 0) {
-      throw ("[FFmpeg] process exited with rc $rc");
+    try {
+      var rc = await FFmpegKit.execute(cmd);
+    } catch (e) {
+      print(e.toString());
     }
+    // print(((await rc.getAllLogs()) as List));
+    // if (rc.getReturnCode() != 0) {
+    //   throw ("[FFmpeg] process exited with rc $rc");
+    // }
 
     return outPath;
   }
 }
+
+// P2tmVRuvTBRaUngk

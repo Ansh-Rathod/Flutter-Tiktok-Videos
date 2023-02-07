@@ -27,7 +27,7 @@ class _ActionsToolbarState extends State<ActionsToolbar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100.0,
+      width: 80.0,
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         _getSocialAction(
             icon: Icons.favorite,
@@ -78,15 +78,6 @@ class _ActionsToolbarState extends State<ActionsToolbar> {
     );
   }
 
-  Widget _getFollowAction({required String pictureUrl}) {
-    return Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0),
-        width: 60.0,
-        height: 60.0,
-        child:
-            Stack(children: [_getProfilePicture(pictureUrl), _getPlusIcon()]));
-  }
-
   Widget _getPlusIcon() {
     return Positioned(
       bottom: 0,
@@ -125,9 +116,8 @@ class _ActionsToolbarState extends State<ActionsToolbar> {
                 borderRadius: BorderRadius.circular(10000.0),
                 child: CachedNetworkImage(
                   imageUrl: userPic,
-                  placeholder: (context, url) =>
-                      new CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ))));
   }
 

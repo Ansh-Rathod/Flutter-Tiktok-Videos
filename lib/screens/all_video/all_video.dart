@@ -1,7 +1,5 @@
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:cachedrun/model/feed_viewmodel.dart';
 import 'package:cachedrun/model/video.dart';
-import 'package:cachedrun/screens/upload_screen/upload_screen.dart';
 import 'package:cachedrun/widgets/action_toolbar.dart';
 import 'package:cachedrun/widgets/description.dart';
 import 'package:flutter/material.dart';
@@ -85,61 +83,88 @@ class _ViewVideoState extends State<ViewVideo> {
     );
   }
 
+  checkVideoRatio(double width, double height) {
+    if (width > height) {
+      return BoxFit.contain;
+    } else if (width < height) {
+      return BoxFit.cover;
+    } else {
+      return BoxFit.contain;
+    }
+  }
+
   Widget videoCard(Video video) {
-    return Stack(
-      children: [
-        video.controller != null
-            ? GestureDetector(
-                onTap: () {
-                  if (video.controller!.value.isPlaying) {
-                    video.controller?.pause();
-                  } else {
-                    video.controller?.play();
-                  }
-                },
-                child: SizedBox.expand(
-                    child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: video.controller?.value.size.width ?? 0,
-                    height: video.controller?.value.size.height ?? 0,
-                    child: VideoPlayer(video.controller!),
-                  ),
-                )),
-              )
-            : Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Center(
-                  child: Container(
-                    height: 70,
-                    width: 70,
-                    color: Colors.black,
-                    child: Center(
-                        child: CircularProgressIndicator(
-                      backgroundColor: Colors.grey,
-                      valueColor:
-                          new AlwaysStoppedAnimation<Color>(Colors.blueAccent),
-                    )),
+    return SafeArea(
+      child: Stack(
+        children: [
+          video.controller != null
+              ? GestureDetector(
+                  onTap: () {
+                    if (video.controller!.value.isPlaying) {
+                      video.controller?.pause();
+                    } else {
+                      video.controller?.play();
+                    }
+                  },
+                  child: SizedBox.expand(
+                      child: FittedBox(
+                    fit: checkVideoRatio(
+                        video.controller?.value.size.width ?? 0,
+                        video.controller?.value.size.height ?? 0),
+                    child: SizedBox(
+                      width: video.controller?.value.size.width ?? 0,
+                      height: video.controller?.value.size.height ?? 0,
+                      child: VideoPlayer(video.controller!),
+                    ),
+                  )),
+                )
+              : Container(
+                  color: Colors.grey.shade300,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Center(
+                    child: Container(
+                      height: 70,
+                      width: 70,
+                      color: Colors.black,
+                      child: Center(
+                          child: CircularProgressIndicator(
+                        backgroundColor: Colors.grey,
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Colors.blueAccent),
+                      )),
+                    ),
                   ),
                 ),
-              ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.end,
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.black.withOpacity(0.2),
+                    Colors.black.withOpacity(0.2)
+                  ]),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                VideoDescription(video.user, video.videoTitle, video.songName),
-                ActionsToolbar(video.likes, video.comments,
-                    "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    VideoDescription(
+                        video.user, video.videoTitle, video.songName),
+                    ActionsToolbar(video.likes, video.comments,
+                        "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
+                  ],
+                ),
+                SizedBox(height: 20)
               ],
             ),
-            SizedBox(height: 20)
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 

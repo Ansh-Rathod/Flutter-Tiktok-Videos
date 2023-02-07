@@ -2,20 +2,17 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:cached_video_player/cached_video_player.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
-
+import 'package:cachedrun/cloudinary.dart';
+import 'package:cachedrun/logger.dart';
 import 'package:cachedrun/screens/add_audio/add_audio.dart';
 import 'package:cachedrun/screens/add_audio/bloc/add_audio_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_kit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 
 class UploadPage extends StatefulWidget {
@@ -30,43 +27,37 @@ class UploadPage extends StatefulWidget {
 }
 
 class _UploadPageState extends State<UploadPage> {
-  String? tempFile;
-  Future<String> _uploadFile(String filePath, String folderName) async {
-    var file = File(filePath);
-    var basename = p.basename(filePath);
+  // String? tempFile;
 
-    final downloadUrl = await FirebaseStorage.instance
-        .ref()
-        .child(folderName)
-        .child(basename)
-        .putFile(file)
-        .then((taskSnapshot) => taskSnapshot.ref.getDownloadURL());
-
-    return downloadUrl;
+  Future<String?> encodeVideo(String videoId) async {
+    final Directory _appDocDir = await getTemporaryDirectory();
+    final dir = _appDocDir.path;
+    final outPath = "$dir/$videoId-video.mp4";
+    try {
+      await FFmpegKit.execute(
+          "-i ${widget.video} -vf scale=trunc(iw/4)*2:trunc(ih/4)*2 -c:v libx264 -crf 18 $outPath");
+      return await uploadFile(File(outPath), "$videoId-video");
+    } catch (e) {
+      logger.wtf(e.toString());
+      print(e.toString());
+    }
+    return null;
   }
 
-  Future<String> encodeVideo() async {
-    var id = Uuid().v4();
-
+  Future<String?> encodeGif(String videoid) async {
     final Directory _appDocDir = await getApplicationDocumentsDirectory();
     final dir = _appDocDir.path;
-    final outPath = "$dir/$id.mp4";
-    await FFmpegKit.execute(
-            "-i ${widget.video} -vf scale=480:-2,setsar=1:1 -c:v libx264 -c:a copy $outPath")
-        .then((returnCode) => print("Return code $returnCode"));
-    return outPath;
-  }
+    final outPath = "$dir/$videoid.gif";
+    try {
+      await FFmpegKit.execute(
+          '-ss 00:00:01 -t 3 -i ${widget.video} -filter_complex "fps=8,scale=480:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=32[p];[s1][p]paletteuse=dither=bayer" $outPath');
 
-  Future<String> encodeGif() async {
-    var id = Uuid().v4();
-
-    final Directory _appDocDir = await getApplicationDocumentsDirectory();
-    final dir = _appDocDir.path;
-    final outPath = "$dir/$id.gif";
-    await FFmpegKit.execute(
-            '-i ${widget.video} -vf fps=5,scale=450:-1 -t 3 $outPath')
-        .then((returnCode) => print("Return code $returnCode"));
-    return outPath;
+      return await uploadFile(File(outPath), videoid);
+    } catch (e) {
+      logger.wtf(e);
+      print(e.toString());
+    }
+    return null;
   }
 
   @override
@@ -101,7 +92,6 @@ class _UploadPageState extends State<UploadPage> {
               ),
             ),
       appBar: AppBar(
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
@@ -132,26 +122,33 @@ class _UploadPageState extends State<UploadPage> {
                     );
                   });
 
-              var gif = await encodeGif();
+              final id = Uuid().v4();
+              var gif = await encodeGif(id);
+              var outpath = await encodeVideo(id);
 
-              var outpath = await encodeVideo();
-              var url = await _uploadFile(outpath, 'Videos');
-              var gifUrl = await _uploadFile(gif, 'Gif');
-
-              await FirebaseFirestore.instance.collection('Videos').doc().set({
-                "id": "${Random().nextInt(1000)}",
-                "comments": "${Random().nextInt(100)}",
+              await FirebaseFirestore.instance
+                  .collection('Videos')
+                  .doc(id)
+                  .set({
+                "id": id,
+                "comments": "${Random().nextInt(1000)}",
                 "likes": "${Random().nextInt(100)}K",
                 "song_name":
                     "Song Title ${Random().nextInt(1000)} - Artist${Random().nextInt(1000)}",
-                "url": url,
-                "gif": gifUrl,
+                "url": outpath,
+                "gif": gif,
                 "user": "user${Random().nextInt(1000)}",
                 "user_pic":
-                    "https://firebasestorage.googleapis.com/v0/b/testvideo-91d3a.appspot.com/o/profile_pics%2Fprofile6.jpeg?alt=media&token=e747af9e-4775-484e-9a27-94b2426f319c",
-                "video_title": "Video${Random().nextInt(1000)}"
+                    "https://firebasxestorage.googleapis.com/v0/b/testvideo-91d3a.appspot.com/o/profile_pics%2Fprofile6.jpeg?alt=media&token=e747af9e-4775-484e-9a27-94b2426f319c",
+                "video_title": "Video-${Random().nextInt(1000)}"
               });
               Navigator.pop(context);
+              // Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => Scaffold(
+              //               body: VideoPreviewWideget(url: outpath),
+              //             )));
               Navigator.pop(context);
             },
             child: Text(
@@ -159,6 +156,7 @@ class _UploadPageState extends State<UploadPage> {
             ),
           )
         ],
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,

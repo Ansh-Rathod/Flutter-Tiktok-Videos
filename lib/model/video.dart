@@ -1,4 +1,4 @@
-import 'package:cached_video_player/cached_video_player.dart';
+import 'package:cachedrun/logger.dart';
 import 'package:video_player/video_player.dart';
 
 class Video {
@@ -50,9 +50,17 @@ class Video {
     return data;
   }
 
-  Future<Null> loadController() async {
+  Future loadController() async {
     controller = VideoPlayerController.network(url);
     await controller?.initialize();
-    controller?.setLooping(true);
+    await controller?.setLooping(true);
+  }
+
+  Future dispose() async {
+    if (controller != null) {
+      logger.d("Disposing controller for video $id");
+      await controller?.dispose();
+      controller = null;
+    }
   }
 }

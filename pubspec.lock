@@ -113,6 +113,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  cloudinary:
+    dependency: "direct main"
+    description:
+      name: cloudinary
+      sha256: ea254b9bf938dd9e61e382096467e0d55a1b90da82df5cc27d247318c48fd842
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+  cloudinary_public:
+    dependency: "direct main"
+    description:
+      name: cloudinary_public
+      sha256: "1ab1b59a2cadbb59d8913c462f0f7963d6bf642f95c981f50a350662710eb6a1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.0"
   collection:
     dependency: transitive
     description:
@@ -153,6 +169,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.6"
   fake_async:
     dependency: transitive
     description:
@@ -169,11 +193,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  ffmpeg_kit_flutter_min_gpl:
+  ffmpeg_kit_flutter_full_gpl:
     dependency: "direct main"
     description:
-      name: ffmpeg_kit_flutter_min_gpl
-      sha256: "4887bbe40646a3c6e095ebea4f605fec1bd50e632486781244dfc85ab7c2b582"
+      name: ffmpeg_kit_flutter_full_gpl
+      sha256: d4033ef2110fcc77f05e857a121feeff3fa6befa73171e030bcfa6be89cf55a8
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0-LTS"
@@ -225,30 +249,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-  firebase_storage:
-    dependency: "direct main"
-    description:
-      name: firebase_storage
-      sha256: "1801785c8bce9b0b262f5daf36e1a48907620147b8065a25e3ad7ae2e890fc11"
-      url: "https://pub.dev"
-    source: hosted
-    version: "11.0.10"
-  firebase_storage_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_storage_platform_interface
-      sha256: "3abc5b687731b7e221ea2b867ddc40ed2f6bdb510dcc3d6cd5d73b25ad750485"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.26"
-  firebase_storage_web:
-    dependency: transitive
-    description:
-      name: firebase_storage_web
-      sha256: "6ac00cd227fb863fcf3ab67991cbaafcd0993da88f63be552e4e636bb0928a3c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.19"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -380,10 +380,10 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: "323b7c70073cccf6b9b8d8b334be418a3293cfb612a560dc2737160a37bf61bd"
+      sha256: "5528c2f391ededb7775ec1daa69e65a2d61276f7552de2b5f7b8d34ee9fd4ab7"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.6"
+    version: "0.6.5"
   just_audio:
     dependency: "direct main"
     description:
@@ -408,14 +408,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.7"
+  logger:
+    dependency: "direct main"
+    description:
+      name: logger
+      sha256: "5076f09225f91dc49289a4ccb92df2eeea9ea01cf7c26d49b3a1f04c6a49eec1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   matcher:
     dependency: transitive
     description:
       name: matcher
-      sha256: c94db23593b89766cda57aab9ac311e3616cf87c6fa4e9749df032f66f30dcb8
+      sha256: "16db949ceee371e9b99d22f88fa3a73c4e59fd0afed0bd25fc336eb76c198b72"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.14"
+    version: "0.12.13"
   material_color_utilities:
     dependency: transitive
     description:
@@ -452,10 +460,10 @@ packages:
     dependency: transitive
     description:
       name: path
-      sha256: "8829d8a55c13fc0e37127c29fedf290c102f4e40ae94ada574091fe0ff96c917"
+      sha256: db9d4f58c908a4ba5953fcee2ae317c94889433e5024c27ce74a37f94267945b
       url: "https://pub.dev"
     source: hosted
-    version: "1.8.3"
+    version: "1.8.2"
   path_provider:
     dependency: "direct main"
     description:
@@ -665,10 +673,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: c9282698e2982b6c3817037554e52f99d4daba493e8028f8112a83d68ccd0b12
+      sha256: ad540f65f92caa91bf21dfc8ffb8c589d6e4dc0c2267818b4cc2792857706206
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.17"
+    version: "0.4.16"
   typed_data:
     dependency: transitive
     description:
@@ -758,5 +766,5 @@ packages:
     source: hosted
     version: "0.2.0+2"
 sdks:
-  dart: ">=2.19.0-345.0.dev <4.0.0"
+  dart: ">=2.18.0 <3.0.0"
   flutter: ">=3.3.0"

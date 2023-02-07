@@ -29,10 +29,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   file_picker: ^5.2.4
   firebase_core: ^2.4.1
-  firebase_storage: ^11.0.10
   flutter_bloc: any
   flutter_cache_manager: ^3.1.2
-  ffmpeg_kit_flutter_min_gpl: 5.1.0-LTS
+  ffmpeg_kit_flutter_full_gpl: 5.1.0-LTS
   get_it: ^7.2.0
   http: ^0.13.3
   image_picker: ^0.8.4
@@ -42,6 +41,9 @@ dependencies:
   syncfusion_flutter_sliders: ^20.4.41
   uuid: ^3.0.4
   video_player: ^2.4.10
+  logger: ^1.1.0
+  cloudinary: ^1.1.0
+  cloudinary_public: ^0.20.0
 
 dev_dependencies:
   flutter_test:

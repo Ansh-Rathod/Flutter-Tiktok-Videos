@@ -1,17 +1,10 @@
-import 'dart:io';
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:cachedrun/bottom_nav_bar/bottom_nav_bar.dart';
-import 'package:cachedrun/data/get_data.dart';
 import 'package:cachedrun/model/feed_viewmodel.dart';
 import 'package:cachedrun/screens/select_video/bloc/select_video_bloc.dart';
 import 'package:cachedrun/screens/select_video/select_video.dart';
-import 'package:cachedrun/screens/upload_screen/upload_screen.dart';
 import 'package:cachedrun/widgets/action_toolbar.dart';
 import 'package:cachedrun/widgets/description.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +12,6 @@ import 'package:get_it/get_it.dart';
 import 'package:stacked/stacked.dart';
 import 'package:video_player/video_player.dart';
 
-import '../colors.dart';
 import '../model/video.dart';
 import 'all_video/all_video.dart';
 
@@ -37,7 +29,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   void initState() {
     feedViewModel.loadVideo(0);
-    feedViewModel.loadVideo(1);
+
     feedViewModel.setInitialised(true);
 
     super.initState();
@@ -97,106 +89,99 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
           itemCount: feedViewModel.videos.length,
           onPageChanged: (index) {
-            index = index % (feedViewModel.videos.length);
             feedViewModel.changeVideo(index);
           },
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-            index = index % (feedViewModel.videos.length);
-
             return videoCard(feedViewModel.videos[index]);
           },
-        ),
-        SafeArea(
-          child: Container(
-            padding: EdgeInsets.only(top: 20),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text('Following',
-                      style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.white70)),
-                  SizedBox(
-                    width: 7,
-                  ),
-                  Container(
-                    color: Colors.white70,
-                    height: 10,
-                    width: 1.0,
-                  ),
-                  SizedBox(
-                    width: 7,
-                  ),
-                  Text('For You',
-                      style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white))
-                ]),
-          ),
         ),
       ],
     );
   }
 
+  checkVideoRatio(double width, double height) {
+    if (width > height) {
+      return BoxFit.contain;
+    } else if (width < height) {
+      return BoxFit.cover;
+    } else {
+      return BoxFit.contain;
+    }
+  }
+
   Widget videoCard(Video video) {
-    return Stack(
-      children: [
-        video.controller != null
-            ? GestureDetector(
-                onTap: () {
-                  if (video.controller!.value.isPlaying) {
-                    video.controller?.pause();
-                  } else {
-                    video.controller?.play();
-                  }
-                },
-                child: SizedBox.expand(
-                    child: FittedBox(
-                  fit: BoxFit.cover,
+    return SafeArea(
+      child: Stack(
+        children: [
+          video.controller != null
+              ? SizedBox.expand(
+                  child: FittedBox(
+                  fit: checkVideoRatio(video.controller?.value.size.width ?? 0,
+                      video.controller?.value.size.height ?? 0),
                   child: SizedBox(
                     width: video.controller?.value.size.width ?? 0,
                     height: video.controller?.value.size.height ?? 0,
                     child: VideoPlayer(video.controller!),
                   ),
-                )),
-              )
-            : Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Center(
-                  child: Container(
-                    height: 70,
-                    width: 70,
-                    color: Colors.black,
-                    child: Center(
-                        child: CircularProgressIndicator(
-                      backgroundColor: Colors.grey,
-                      valueColor:
-                          new AlwaysStoppedAnimation<Color>(Colors.blueAccent),
-                    )),
+                ))
+              : Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Center(
+                    child: Container(
+                      height: 70,
+                      width: 70,
+                      color: Colors.black,
+                      child: Center(
+                          child: CircularProgressIndicator(
+                        backgroundColor: Colors.grey,
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+                      )),
+                    ),
                   ),
                 ),
+          GestureDetector(
+            onTap: () {
+              if (video.controller != null) {
+                if (video.controller!.value.isPlaying) {
+                  video.controller?.pause();
+                } else {
+                  video.controller?.play();
+                }
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.black.withOpacity(0.2),
+                      Colors.black.withOpacity(0.2)
+                    ]),
               ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                VideoDescription(video.user, video.videoTitle, video.songName),
-                ActionsToolbar(video.likes, video.comments,
-                    "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
-              ],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      VideoDescription(
+                          video.user, video.videoTitle, video.songName),
+                      ActionsToolbar(video.likes, video.comments,
+                          "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"),
+                    ],
+                  ),
+                  SizedBox(height: 20)
+                ],
+              ),
             ),
-            SizedBox(height: 20)
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -225,7 +210,6 @@ class _AllVideoPageState extends State<AllVideoPage> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          brightness: Brightness.light,
           title: Text(
             "All Videos",
             style: TextStyle(
@@ -234,6 +218,7 @@ class _AllVideoPageState extends State<AllVideoPage> {
               fontSize: 20,
             ),
           ),
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         body: ViewModelBuilder<FeedViewModel>.reactive(
           disposeViewModel: false,

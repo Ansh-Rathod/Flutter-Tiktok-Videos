@@ -56,44 +56,47 @@ class _SelectVideosState extends State<SelectVideos> {
               elevation: 0,
               iconTheme: IconThemeData(color: Colors.black),
               bottom: PreferredSize(
-                preferredSize: Size.fromHeight(20),
+                preferredSize: Size.fromHeight(10),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: TextField(
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.blueAccent,
-                          ),
-                          hintText: "Search stock video..",
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                        cursorColor: Colors.black,
-                        onSubmitted: (String text) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  BlocProvider<SearchVideoBloc>(
-                                create: (context) => SearchVideoBloc()
-                                  ..add(LoadSearchVideos(text: text)),
-                                child: SearchVideos(),
-                              ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: TextField(
+                          style: TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.search,
+                              size: 20,
+                              color: Colors.blueAccent,
                             ),
-                          );
-                        },
+                            hintText: "Search stock video..",
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          cursorColor: Colors.black,
+                          onSubmitted: (String text) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    BlocProvider<SearchVideoBloc>(
+                                  create: (context) => SearchVideoBloc()
+                                    ..add(LoadSearchVideos(text: text)),
+                                  child: SearchVideos(),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -141,6 +144,7 @@ class _SelectVideosState extends State<SelectVideos> {
                           width: double.infinity,
                           height: double.infinity,
                           decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: CachedNetworkImageProvider(

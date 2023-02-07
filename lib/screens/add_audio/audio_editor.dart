@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:audio_session/audio_session.dart';
-import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -31,7 +31,6 @@ class BottomSheetWidget extends StatefulWidget {
 
 class _BottomSheetWidgetState extends State<BottomSheetWidget> {
   late AudioPlayer _player;
-  int _addedCount = 0;
 
   @override
   void initState() {
@@ -212,7 +211,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                   final outPath = "${dir.path}/$id.mp4";
                   await FFmpegKit.execute(
                           "-i ${widget.vidpath} -i ${widget.file} -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest ${dir.path}/$id.mp4")
-                      .then((return_code) => print("Return code $return_code"));
+                      .then((returnCode) => print("Return code $returnCode"));
 
                   Navigator.pop(context, outPath);
                 } else {
@@ -226,8 +225,8 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                   final id = Uuid().v4();
                   final outPath = "${dir.path}/$id.mp4";
                   await FFmpegKit.execute(
-                          "-i ${widget.vidpath} -i ${outputFilePath} -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest ${dir.path}/$id.mp4")
-                      .then((return_code) => print("Return code $return_code"));
+                          "-i ${widget.vidpath} -i $outputFilePath -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest ${dir.path}/$id.mp4")
+                      .then((returnCode) => print("Return code $returnCode"));
                   Navigator.pop(context, outPath);
                 }
               },

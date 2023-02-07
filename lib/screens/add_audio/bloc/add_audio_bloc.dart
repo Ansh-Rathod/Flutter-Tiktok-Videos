@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:cachedrun/model/audio_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 part 'add_audio_event.dart';
 part 'add_audio_state.dart';
 
@@ -18,15 +18,15 @@ class AudioRepo {
 class AddAudioBloc extends Bloc<AddAudioEvent, AddAudioState> {
   final repo = AudioRepo();
   AddAudioBloc() : super(AddAudioInitial()) {
-    on<LoadAudio>((event, emit) {
-      emit(AddAudioLoading());
-      final repo = AudioRepo();
-      repo.getAudios().then((value) {
+    on<LoadAudio>((event, emit) async {
+      try {
+        emit(AddAudioLoading());
+        final value = await repo.getAudios();
         emit(AddAudioLoaded(audio: value.audioList));
-      }).catchError((e) {
+      } catch (e) {
         print(e.toString());
         emit(AddAudioError());
-      });
+      }
     });
   }
 }

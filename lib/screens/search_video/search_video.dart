@@ -95,6 +95,7 @@ class _SearchVideosState extends State<SearchVideos> {
                         width: double.infinity,
                         height: double.infinity,
                         decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: CachedNetworkImageProvider(

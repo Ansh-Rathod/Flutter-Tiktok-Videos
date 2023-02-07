@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:cachedrun/screens/upload_screen/upload_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:video_player/video_player.dart';
 
@@ -47,7 +45,6 @@ class _VideoPreviewState extends State<VideoPreview> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        brightness: Brightness.dark,
         elevation: 0.0,
         actions: [
           MaterialButton(
@@ -75,18 +72,20 @@ class _VideoPreviewState extends State<VideoPreview> {
                       color: Colors.white,
                     ))
                 : Container(
-                    width: 30,
-                    height: 30,
+                    width: 16,
+                    height: 16,
                     child: Center(
                       child: CircularProgressIndicator(
                         backgroundColor: Colors.grey,
                         strokeWidth: 2,
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                            Colors.blueAccent),
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.blueAccent),
                       ),
-                    )),
+                    ),
+                  ),
           )
         ],
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: GestureDetector(
         onTap: () {
